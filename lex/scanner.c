@@ -26,7 +26,7 @@ int main( const int argc,const char** argv){
     FILE* f_out,*f_in;
 
     if(argc < 3){
-        printf("%d: Expected arguments [input file] [output file]\n",argc);
+        printf("Expected arguments [input file] [output file]\n");
         return 1;
     }
 
