@@ -23,9 +23,9 @@ int main( const int argc,const char** argv){
     strcpy(tokens[STRING],"STRING");
     strcpy(tokens[CHAR],"CHAR");
 
-    FILE* f_out,*f_in;
+    FILE* f_out,*f_in,*intermidiate_file;
 
-    if(argc < 3){
+    if(argc < 4){
         printf("Expected arguments [input file] [output file]\n");
         return 1;
     }
@@ -33,8 +33,9 @@ int main( const int argc,const char** argv){
 
     f_in = fopen(argv[1],"r");
     f_out = fopen(argv[2],"w");
+    intermidiate_file = fopen(argv[3],"w");
 
-    printf("%s %s\n",argv[1],argv[2] );
+    printf("%s %s %s\n",argv[1],argv[2],argv[3]);
 
     yyset_in(f_in);
 
@@ -42,9 +43,11 @@ int main( const int argc,const char** argv){
     while(k = yylex()){
         count++;
         fprintf(f_out,"%-3d: %-10s %s\n",count,tokens[k],yytext);
+        fprintf(intermidiate_file,"%s",yytext);
     }
 
     fclose(f_out);
     fclose(f_in);
+    fclose(intermidiate_file);
     return 0;
 }
