@@ -20,13 +20,13 @@ void setSymbol(char sym,int val);
 %token exit_statement
 %token <num> number
 %token <id> identifier
-%type <num> line exp term
+%type <num> line exp term factor
 %type <id> assignment
 
 
 %%
 
-line : assignment ';'                  {;} //do nothing
+line:  assignment ';'                  {;} //do nothing
        | exit_statement ';'            {exit(0);}
        | println exp ';'               {printf("%d\n",$2);} 
        | line assignment ';'           {;}
@@ -37,16 +37,20 @@ line : assignment ';'                  {;} //do nothing
 assignment: identifier '=' exp         {setSymbol($1,$3);}
        ;
 
-exp :  term                            {$$ = $1;}                 
-       | '(' exp ')'                   {$$ = $2;}
+
+exp:   term                            {$$ = $1;}
        | exp '+' term                  {$$ = $1 + $3;}
        | exp '-' term                  {$$ = $1 - $3;}
-       | exp '*' term                  {$$ = $1 * $3;}
-       | exp '/' term                  {if($3){$$ = $1/$3;}else{printf("Division by zero error\n");}}
        ;
 
-term : number                          {$$ = $1;}
+term:  factor                          {$$ = $1;}
+       |  term '*' factor              {$$ = $1 * $3;}
+       |  term '/' factor              {$$ = $1 / $3;}
+       ;
+
+factor:  number                        {$$ = $1;}
        | identifier                    {$$ = getSymbol($1);}
+       | '(' exp ')'                   {$$ = $2;}
        ;
 
 %%

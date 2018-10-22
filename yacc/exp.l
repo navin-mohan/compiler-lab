@@ -13,15 +13,15 @@ int processInt(char* text);
 "print"            { return println; }
 "exit"             { return exit_statement; }
 [a-zA-Z]           { yylval.id = yytext[0];return identifier; }
-('+'|'-')?[0-9]+   { yylval.num = processInt(yytext); return number; }
+[0-9]+             { yylval.num = processInt(yytext); return number; }
 [ \t\n]            ;
-[-\+\*/;=\(\)]  { return yytext[0];}
+[-\+\*/;=\(\)]     { return yytext[0];}
 .                  {ECHO; printf("Unexpected character %s",yytext);}
 %%
 
 int yywrap(void) { return 1; }
 
 int processInt(char* text){
-    int k = atoi(text + (text[0] == '-' || text[0] == '+'?1:0)) ;
-    return text[0] == '-'?-k:k;
+    int k = atoi(text) ;
+    return k;
 }
