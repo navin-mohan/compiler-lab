@@ -20,7 +20,7 @@ void setSymbol(char sym,int val);
 %token exit_statement
 %token <num> number
 %token <id> identifier
-%type <num> line exp term factor
+%type <num> line exp term factor n
 %type <id> assignment
 
 
@@ -48,7 +48,12 @@ term:  factor                          {$$ = $1;}
        |  term '/' factor              {$$ = $1 / $3;}
        ;
 
-factor:  number                        {$$ = $1;}
+factor: n                              {$$ = $1;}
+        | '-' n                        {$$ = -$2;}
+        | '+' n                        {$$ = $2;}
+        ;
+
+n:     number                          {$$ = $1;}
        | identifier                    {$$ = getSymbol($1);}
        | '(' exp ')'                   {$$ = $2;}
        ;
