@@ -1,0 +1,9 @@
+A 0 B
+A 0 C
+A 1 A
+A e B
+B 1 B
+B e C
+C 1 C
+C 0 C
+
